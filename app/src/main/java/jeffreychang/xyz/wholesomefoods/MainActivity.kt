@@ -1,8 +1,12 @@
 package jeffreychang.xyz.wholesomefoods
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -13,10 +17,23 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.GridView
 import jeffreychang.xyz.wholesomefoods.login.LoginActivity
 import jeffreychang.xyz.wholesomefoods.network.ClarifaiAPIEndpointInterface
+import java.io.ByteArrayOutputStream
+import jeffreychang.xyz.wholesomefoods.ui.GridAdapter
+import android.provider.MediaStore
+import android.os.Environment.getExternalStorageDirectory
+import android.support.v4.app.FragmentActivity
+import android.util.Log
+import java.io.File
+import java.io.IOException
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private val CAMERA_REQUEST = 1888
+    private var picsGrid = findViewById(R.id.foodPicsList) as GridView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +45,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+
+            val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+            val imagesFolder = File(Environment.getExternalStorageDirectory(), "MyImages")
+
+            if (imagesFolder.mkdirs()) {
+                //Log.d(FragmentActivity.TAG, "The directory is created")
+            } else {
+                //Log.d(FragmentActivity.TAG, "Failed or already exists")
+            }
+            val image = File(imagesFolder, "image_001" + System.currentTimeMillis() + ".jpg")
+
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image))
+
+            startActivityForResult(cameraIntent, CAMERA_REQUEST)
         }
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
@@ -44,6 +74,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            val photo = data.extras.get("data") as Bitmap
+
+            //add to grid view
+            picsGrid.setAdapter(GridAdapter(applicationContext))
+
+            val stream = ByteArrayOutputStream()
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val byteArray = stream.toByteArray()
+
+            //send byteArray to api
+        }
+    }
     override fun onBackPressed() {
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -96,4 +140,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
 }
