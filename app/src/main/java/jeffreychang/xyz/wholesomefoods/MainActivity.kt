@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val sharedPreferences = getPreferences(Context.MODE_PRIVATE)
-        if (!sharedPreferences.contains(getString(R.string.isLoggedIn))) {
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
+//        val sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+//        if (!sharedPreferences.contains(getString(R.string.isLoggedIn))) {
+//            startActivity(Intent(this, LoginActivity::class.java))
+//        }
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
