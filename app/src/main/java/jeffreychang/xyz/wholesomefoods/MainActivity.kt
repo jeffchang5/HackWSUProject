@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import jeffreychang.xyz.wholesomefoods.login.LoginActivity
+import jeffreychang.xyz.wholesomefoods.network.ClarifaiAPIEndpointInterface
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
