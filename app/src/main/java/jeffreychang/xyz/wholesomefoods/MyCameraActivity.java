@@ -35,6 +35,8 @@ public class MyCameraActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
     static int i = 0;
     GridView gv;
+    ArrayList<File> fList = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,16 @@ public class MyCameraActivity extends AppCompatActivity {
                 Intent intent;
                 intent = new Intent(getApplicationContext() , ImageDetailsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("pos", String.valueOf(position));
+
+                ArrayList<Drawable> drawables = readFileFromInternalStorage();
+                //Bitmap = drawables.get(position);
+
+                //Call Api
+
+                //Convert JSON to strings
+
+                //Set into intent
+
                 startActivity(intent);
             }
         });
@@ -133,15 +145,13 @@ public class MyCameraActivity extends AppCompatActivity {
         //File directory = cw.getDir("imageDir", Context.MODE_APPEND);
         //filesCount = cw.getFilesDir().listFiles().length;
 
-        ArrayList<File> fList = imageReader(cw.getDir("imageDir", Context.MODE_APPEND));
+        fList = imageReader(cw.getDir("imageDir", Context.MODE_APPEND));
 
         for(int i = 0; i < fList.size();i++){
-
             //File mypath = new File(,"food" + i++ +".png");
             drawables.add(Drawable.createFromPath(fList.get(i).getAbsolutePath()));
             Log.d("TAG", "DOROMON " + fList.get(i).getAbsolutePath());
         }
-
 
         return drawables;
     }

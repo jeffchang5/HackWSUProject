@@ -11,6 +11,5 @@ public class ImageDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_details);
         Log.d("TAG", getIntent().getStringExtra ("pos"));
-        Log.d("TAG", getIntent().getStringExtra("data"));
     }
 }
