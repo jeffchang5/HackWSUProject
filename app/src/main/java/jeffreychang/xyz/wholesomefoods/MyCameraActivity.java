@@ -80,7 +80,12 @@ public class MyCameraActivity extends AppCompatActivity {
 //                apiTester.myTest(pngFile.getAbsolutePath());
 
                 //Set into intent
+
+                String[] imgDescs = {"Salad", "Cookie", "Cake/Donut"};
+
                 intent.putExtra("imgPath", pngFile.getAbsolutePath());
+                intent.putExtra("imgdesc", imgDescs);
+
                 startActivity(intent);
             }
         });
