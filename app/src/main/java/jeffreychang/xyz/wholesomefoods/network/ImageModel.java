@@ -2,27 +2,43 @@ package jeffreychang.xyz.wholesomefoods.network;
 
 import android.media.Image;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by pkj on 5/20/17.
  */
 
 public class ImageModel {
-    String name;
-    Image img;
+    @SerializedName("condition")
+    String _condition;
 
-    public String getName() {
-        return name;
+    @SerializedName("item")
+    String _item;
+
+    @SerializedName("calories")
+    int _calories;
+
+    public String get_condition() {
+        return _condition;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void set_condition(String _condition) {
+        this._condition = _condition;
     }
 
-    public Image getImg() {
-        return img;
+    public String get_item() {
+        return _item;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
+    public void set_item(String _item) {
+        this._item = _item;
+    }
+
+    public int get_calories() {
+        return _calories;
+    }
+
+    public void set_calories(int _calories) {
+        this._calories = _calories;
     }
 }

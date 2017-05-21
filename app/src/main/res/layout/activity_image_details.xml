@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context="jeffreychang.xyz.wholesomefoods.ImageDetailsActivity">
 
+    <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/selectedImage"
+    />
+
 </android.support.constraint.ConstraintLayout>

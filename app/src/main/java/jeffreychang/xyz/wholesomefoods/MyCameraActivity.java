@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -18,12 +21,15 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import jeffreychang.xyz.wholesomefoods.login.LoginActivity;
+import jeffreychang.xyz.wholesomefoods.network.APITester;
 import jeffreychang.xyz.wholesomefoods.ui.GridAdapter;
 
 public class MyCameraActivity extends AppCompatActivity {
@@ -62,14 +68,19 @@ public class MyCameraActivity extends AppCompatActivity {
                 intent.putExtra("pos", String.valueOf(position));
 
                 ArrayList<Drawable> drawables = readFileFromInternalStorage();
+
                 //Bitmap = drawables.get(position);
+                Bitmap bitmap = drawableToBitmap(position, drawables);
+                File pngFile = convertBitmapToPng(bitmap);
+
+                Log.d("PNG", pngFile.getAbsolutePath());
 
                 //Call Api
-
-                //Convert JSON to strings
+//                APITester apiTester = new APITester();
+//                apiTester.myTest(pngFile.getAbsolutePath());
 
                 //Set into intent
-
+                intent.putExtra("imgPath", pngFile.getAbsolutePath());
                 startActivity(intent);
             }
         });
@@ -84,6 +95,64 @@ public class MyCameraActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //Convert to png file
+    private File convertBitmapToPng(Bitmap bitmap) {
+
+        //create a file to write bitmap data
+        File pngFile = new File(getApplicationContext().getCacheDir(), "food" + System.currentTimeMillis()/1000 + ".png");
+        try {
+            pngFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+
+        byte[] bitmapdata = bos.toByteArray();
+
+        //write the bytes in file
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(pngFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fos.write(bitmapdata);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return pngFile;
+
+    }
+
+    private Bitmap drawableToBitmap(int position, ArrayList<Drawable> drawables) {
+        Bitmap bitmap = null;
+        if(drawables.get(position) instanceof BitmapDrawable){
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawables.get(position);
+            if(bitmapDrawable.getBitmap() != null){
+                return bitmapDrawable.getBitmap();
+            }
+        }
+        Canvas canvas = new Canvas(bitmap);
+        drawables.get(position).setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawables.get(position).draw(canvas);
+        return bitmap;
     }
 
     private void dispatchTakePictureIntent() {
@@ -105,7 +174,6 @@ public class MyCameraActivity extends AppCompatActivity {
             gv.setAdapter(new GridAdapter(this, readFileFromInternalStorage()));
 
             Log.d("TAG", s);
-
 
         }
     }
