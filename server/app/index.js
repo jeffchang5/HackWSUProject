@@ -42,6 +42,7 @@ db.once('open', () => {
                     time: new Date(),
                     condition: b,
                     food: food,
+                    calories: Math.floor(data.results[0].nutrient_value),
                   });
                 Food.save((err) => {
                   if (err) console.log(err);
@@ -50,7 +51,7 @@ db.once('open', () => {
                     res.send({
                       condition: condition,
                       item: food,
-                      calories: data.results[0].nutrient_value,
+                      calories: Math.floor(data.results[0].nutrient_value),
 
                     });
                   }
