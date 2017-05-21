@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jeffreychang.xyz.wholesomefoods.login.QuestionFragment">
-
+    tools:context="jeffreychang.xyz.wholesomefoods.MyCameraActivity"
+    android:id="@+id/imgDetailsFrag"
+    >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

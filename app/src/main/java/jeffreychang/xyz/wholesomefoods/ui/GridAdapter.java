@@ -52,7 +52,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     // create a new ImageView for each item referenced by the Adapter
@@ -61,9 +61,9 @@ public class GridAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(220, 220));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setPadding(1, 1, 1, 1);
+            imageView.setLayoutParams(new GridView.LayoutParams(230, 235));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(0, 50, 0, 0);
         } else {
             imageView = (ImageView) convertView;
         }

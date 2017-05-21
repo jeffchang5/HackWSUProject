@@ -1,6 +1,7 @@
 package jeffreychang.xyz.wholesomefoods.login
 
 import android.support.v4.app.Fragment
+import android.util.Log
 import jeffreychang.xyz.wholesomefoods.R
 import jeffreychang.xyz.wholesomefoods.login.LoginFragment.ChangeFragmentListener
 
